@@ -35,17 +35,26 @@ type Query {
       numOfBeds
       costPerNight
       closedForBooking: closedForBookings
+      description
+      photoThumbnail
+      latitude
+      longitude
       """
+      entity: true
     )
 }
 
 "A particular location available for booking"
-type Listing {
+type Listing @key(fields: "id") {
   id: ID!
   title: String!
   numOfBeds: Int
   costPerNight: Float
   closedForBooking: Boolean
+  description: String
+  photoThumbnail: String
+  latitude: Float
+  longitude: Float
   amenities: [Amenity!]!
     @connect(
       source: "listings"
