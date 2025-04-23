@@ -46,4 +46,20 @@ type Listing {
   numOfBeds: Int
   costPerNight: Float
   closedForBooking: Boolean
+  amenities: [Amenity!]!
+    @connect(
+      source: "listings"
+      http: { GET: "/listings/{$this.id}/amenities" }
+      selection: """
+      id
+      name
+      category
+      """
+    )
+}
+
+type Amenity {
+  id: ID!
+  category: String!
+  name: String!
 }
