@@ -18,6 +18,9 @@ type Query {
       selection: """
       id
       title
+      numOfBeds
+      costPerNight
+      closedForBooking: closedForBookings
       """
     )
 }
@@ -26,4 +29,7 @@ type Query {
 type Listing {
   id: ID!
   title: String!
+  numOfBeds: Int
+  costPerNight: Float
+  closedForBooking: Boolean
 }
