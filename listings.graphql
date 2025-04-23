@@ -21,6 +21,9 @@ type Query {
       numOfBeds
       costPerNight
       closedForBooking: closedForBookings
+      amenities {
+        id
+      }
       """
     )
 
@@ -39,6 +42,11 @@ type Query {
       photoThumbnail
       latitude
       longitude
+      amenities {
+        id
+        category
+        name
+      }
       """
       entity: true
     )
@@ -71,4 +79,50 @@ type Amenity {
   id: ID!
   category: String!
   name: String!
+}
+
+input CreateListingInput {
+  title: String!
+  numOfBeds: Int!
+  costPerNight: Float!
+}
+
+type CreateListingResponse {
+  listing: Listing
+}
+
+type Mutation {
+  createListing(input: CreateListingInput!): CreateListingResponse
+    @connect(
+      source: "listings"
+      http: {
+        POST: "/listings"
+        headers: [{ name: "Api-Key", from: "Api-Key" }]
+        body: """
+        listing: {
+          title: $args.input.title
+          numOfBeds: $args.input.numOfBeds
+          costPerNight: $args.input.costPerNight
+        }
+        """
+      }
+      selection: """
+      listing: {
+        id
+        title
+        numOfBeds
+        costPerNight
+        closedForBooking: closedForBookings
+        description
+        photoThumbnail
+        latitude
+        longitude
+        amenities {
+          id
+          name
+          category
+        }
+      }
+      """
+    )
 }
