@@ -23,6 +23,20 @@ type Query {
       closedForBooking: closedForBookings
       """
     )
+
+  "A specific listing"
+  listing(id: ID!): Listing
+    @connect(
+      source: "listings"
+      http: { GET: "/listings/{$args.id}" }
+      selection: """
+      id
+      title
+      numOfBeds
+      costPerNight
+      closedForBooking: closedForBookings
+      """
+    )
 }
 
 "A particular location available for booking"
